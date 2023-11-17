@@ -1,6 +1,12 @@
-import './globals.css';
 import type { Metadata } from 'next';
+import './globals.css';
 import { Inter } from 'next/font/google';
+
+import { ClerkProvider, ClerkLoaded, ClerkLoading } from '@clerk/nextjs';
+import { ModalProvider } from '@/providers/modal-provider';
+import Navbar from '@/components/navbar';
+
+import { SyncLoader } from 'react-spinners';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -15,8 +21,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
-      <body className={inter.className}>{children}</body>
-    </html>
+    <ClerkProvider>
+      <html lang='en'>
+        <body className={inter.className}>
+          <ClerkLoading>
+            <div className='flex flex-col items-center mt-32 text-center'>
+              <SyncLoader size={8} color='red' />
+            </div>
+          </ClerkLoading>
+          <ModalProvider />
+          <Navbar />
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
