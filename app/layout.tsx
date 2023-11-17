@@ -7,6 +7,7 @@ import { ModalProvider } from '@/providers/modal-provider';
 import Navbar from '@/components/navbar';
 
 import { SyncLoader } from 'react-spinners';
+import toast from 'react-hot-toast';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,9 +30,11 @@ export default function RootLayout({
               <SyncLoader size={8} color='red' />
             </div>
           </ClerkLoading>
-          <ModalProvider />
-          <Navbar />
-          {children}
+          <ClerkLoaded>
+            <ModalProvider />
+            <Navbar />
+            {children}
+          </ClerkLoaded>
         </body>
       </html>
     </ClerkProvider>
