@@ -14,23 +14,18 @@ import {
   MenubarTrigger,
 } from '@/components/ui/menubar';
 
-type AdminMenuItem = {
+type ShopMenuItem = {
   label: string;
   route: string;
 };
 
-const adminMenuItems: AdminMenuItem[] = [
-  { label: 'Categories', route: '/admin/categories' },
-  { label: 'Settings', route: '/admin/settings' },
-  { label: 'Product', route: '/admin/product' },
-  { label: 'Order', route: '/admin/order' },
+const shopMenuItems: ShopMenuItem[] = [
+  { label: 'Books', route: '/books' },
+  { label: 'Test Papers', route: '/testPaper' },
+  { label: 'AudioBooks', route: '/audioBooks' },
 ];
 
-interface AdminMenuProps {
-  canAccessAdmin: boolean;
-}
-
-export default function AdminMenu({ canAccessAdmin }: AdminMenuProps) {
+export default function ShopMenu() {
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
@@ -38,10 +33,6 @@ export default function AdminMenu({ canAccessAdmin }: AdminMenuProps) {
   const handleItemClick = (route: string) => {
     router.push(route);
   };
-
-  if (!canAccessAdmin) {
-    return null;
-  }
 
   return (
     <Menubar>
@@ -52,10 +43,10 @@ export default function AdminMenu({ canAccessAdmin }: AdminMenuProps) {
             open ? 'text-black dark:text-white' : 'text-muted-foreground'
           )}
         >
-          Admin
+          Shop now
         </MenubarTrigger>
         <MenubarContent>
-          {adminMenuItems.map((item) => (
+          {shopMenuItems.map((item) => (
             <MenubarItem
               key={item.label}
               onClick={() => handleItemClick(item.route)}
