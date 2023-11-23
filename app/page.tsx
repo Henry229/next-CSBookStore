@@ -1,3 +1,4 @@
+import Footer from '@/components/footer';
 import Image from 'next/image';
 
 export default async function HomePage() {
@@ -150,6 +151,7 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      <Footer />
     </main>
   );
 }
