@@ -31,12 +31,15 @@ export default function MainNav() {
     },
   ];
 
-  const canAccessAdmin = Boolean(
-    user &&
-      typeof user.publicMetadata === 'object' &&
-      Array.isArray(user.publicMetadata.accessible_paths) &&
-      user.publicMetadata.accessible_paths.includes('/admin')
-  );
+  // const canAccessAdmin = Boolean(
+  //   user &&
+  //     typeof user.publicMetadata === 'object' &&
+  //     Array.isArray(user.publicMetadata.accessible_paths) &&
+  //     user.publicMetadata.accessible_paths.includes('/admin')
+  // );
+  const accessiblePaths = user?.publicMetadata?.accessible_paths;
+  const canAccessAdmin =
+    Array.isArray(accessiblePaths) && accessiblePaths.includes('/admin');
 
   return (
     <nav className='flex items-center space-x-4 lg:space-x-6'>

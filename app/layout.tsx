@@ -31,7 +31,7 @@ export default function RootLayout({
             </div>
           </ClerkLoading>
           <ClerkLoaded>
-            <ModalProvider />
+            {/* <ModalProvider /> */}
             <Navbar />
             {children}
           </ClerkLoaded>

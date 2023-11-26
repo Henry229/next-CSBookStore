@@ -21,9 +21,9 @@ type AdminMenuItem = {
 
 const adminMenuItems: AdminMenuItem[] = [
   { label: 'Categories', route: '/admin/categories' },
+  { label: 'Items', route: '/admin/items' },
+  { label: 'Subjects', route: '/admin/subjects' },
   { label: 'Settings', route: '/admin/settings' },
-  { label: 'Product', route: '/admin/product' },
-  { label: 'Order', route: '/admin/order' },
 ];
 
 interface AdminMenuProps {

@@ -1,14 +1,17 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
-import { UserButton, auth } from '@clerk/nextjs';
+import { UserButton, auth, useUser } from '@clerk/nextjs';
 
 import MainNav from '@/components/main-nav';
 import Container from '@/components/ui/container';
 import LoginNav from '@/components/login-nav';
 
-export default async function Navbar() {
-  const { userId } = await auth();
-  const isAuth = !!userId;
+export default function Navbar() {
+  // const { userId } = await auth();
+  // const isAuth = !!userId;
+  const { isSignedIn } = useUser();
 
   return (
     <div className='border-b'>
@@ -20,7 +23,7 @@ export default async function Navbar() {
           </Link>
           <div className='flex items-center ml-auto space-x-4'>
             <MainNav />
-            {!isAuth ? (
+            {!isSignedIn ? (
               <LoginNav />
             ) : (
               <div className='flex items-center ml-auto space-x-4'>
