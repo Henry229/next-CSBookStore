@@ -3,18 +3,25 @@ import { clerkApi } from '@clerk/nextjs/edge-middlewarefiles';
 import { NextResponse } from 'next/server';
 
 export default authMiddleware({
-  // async afterAuth({ clerkUser, req, res }) {
-  //   // '/admin' 경로에 대한 접근 제어
-  //   if (req.url.startsWith('/admin')) {
-  //     // Clerk 사용자의 역할을 확인하여 'admin'이 아닌 경우 접근을 거부
-  //     if (!clerkUser.publicMetadata.roles.includes('admin')) {
-  //       res.writeHead(302, { Location: '/login' });
-  //       res.end();
-  //       return { props: {} };
-  //     }
-  //   }
-  // },
+  afterAuth(auth, req, evt) {
+    // handle users who aren't authenticated
+    console.log('>>>>auth: ', auth.userId, '/', auth.isPublicRoute);
 
+    if (!auth.userId && !auth.isPublicRoute) {
+      console.log('111 yougida');
+      return redirectToSignIn({ returnBackUrl: req.url });
+    }
+    // redirect them to organization selection page
+    if (
+      auth.userId &&
+      auth.orgId &&
+      req.nextUrl.pathname !== '/org-selection'
+    ) {
+      console.log('222 yougida');
+      const categoriesPage = new URL(`/${auth.userId}/categories`, req.url);
+      return NextResponse.redirect(categoriesPage);
+    }
+  },
   publicRoutes: ['/', '/forget-password'],
 });
 // publicRoutes: ['/api/:path*'],

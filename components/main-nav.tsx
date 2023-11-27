@@ -15,17 +15,17 @@ export default function MainNav() {
 
   const routes = [
     {
-      href: `/${params}/Contact`,
+      href: '/Contact',
       label: 'Contact',
       active: pathName === `/contact`,
     },
     {
-      href: `/${params}/Cart`,
+      href: '/Cart',
       label: 'Cart',
       active: pathName === `/cart`,
     },
     {
-      href: `/${params}/Order`,
+      href: '/Order',
       label: 'Order',
       active: pathName === `/order`,
     },

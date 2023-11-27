@@ -68,7 +68,7 @@ export default async function HomePage() {
           <p className='mb-4'>
             Welcome to our TestBank, online bookstore, where you can find a wide
             range of educational materials specifically designed for primary
-            students. Elevate your child's learning experience with our
+            students. Elevate your child`&apos;`s learning experience with our
             comprehensive exam preparation materials, perfect for primary
             geniuses.
           </p>
@@ -133,7 +133,7 @@ export default async function HomePage() {
           </h2>
           <p className='mb-6'>
             With the Testbank Advantage, focusing on how choosing Testbank
-            elevates students' success in exams and studies
+            elevates students`&apos;` success in exams and studies
           </p>
           <div className='mb-4'>
             <h3 className='text-xl font-semibold'>Convenient</h3>

@@ -18,7 +18,7 @@ export default async function AdminLayout({
   console.log('+++++category', category);
 
   if (category) {
-    redirect(`/${userId}/categories/${category.id}`);
+    redirect(`/${userId}/categories`);
   }
 
   return (

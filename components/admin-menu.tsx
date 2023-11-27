@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
 
@@ -13,18 +13,12 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from '@/components/ui/menubar';
+import { auth, useUser } from '@clerk/nextjs';
 
 type AdminMenuItem = {
   label: string;
   route: string;
 };
-
-const adminMenuItems: AdminMenuItem[] = [
-  { label: 'Categories', route: '/admin/categories' },
-  { label: 'Items', route: '/admin/items' },
-  { label: 'Subjects', route: '/admin/subjects' },
-  { label: 'Settings', route: '/admin/settings' },
-];
 
 interface AdminMenuProps {
   canAccessAdmin: boolean;
@@ -32,6 +26,16 @@ interface AdminMenuProps {
 
 export default function AdminMenu({ canAccessAdmin }: AdminMenuProps) {
   const router = useRouter();
+  const { user } = useUser();
+
+  const adminMenuItems: AdminMenuItem[] = user
+    ? [
+        { label: 'Categories', route: `/${user.id}/categories` },
+        { label: 'Items', route: `/${user.id}/items` },
+        { label: 'Subjects', route: `/${user.id}/subjects` },
+        { label: 'Settings', route: `/${user.id}/settings` },
+      ]
+    : [];
 
   const [open, setOpen] = useState(false);
 
