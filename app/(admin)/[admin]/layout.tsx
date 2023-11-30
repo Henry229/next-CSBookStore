@@ -1,29 +1,60 @@
+'use client';
+
 import prismadb from '@/lib/prismadb';
 import { ModalProvider } from '@/providers/modal-provider';
-import { auth } from '@clerk/nextjs';
-import { redirect } from 'next/navigation';
+import { auth, useUser } from '@clerk/nextjs';
+import axios from 'axios';
+import { redirect, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-export default async function AdminLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { userId } = auth();
+  const router = useRouter();
+  const { user } = useUser();
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
 
-  if (!userId) {
-    redirect('/sign-in');
-  }
+  useEffect(() => {
+    const handleRedirect = async () => {
+      if (!user) {
+        router.push('/sign-in');
+      } else {
+        try {
+          const response = await axios.get('/api/categories');
+          const categories = response.data;
+          console.log('+++++category', categories);
 
-  const category = await prismadb.category.findFirst();
-  console.log('+++++category', category);
+          if (categories.length > 0) {
+            const firstCategory = categories[0];
+            router.push(`/${user.id}/categories`);
+          } else {
+            setShowCategoryModal(true);
+          }
+        } catch (error) {
+          console.error('getting error while processing API', error);
+        }
+      }
+    };
 
-  if (category) {
-    redirect(`/${userId}/categories`);
-  }
+    handleRedirect();
+  }, [user, router]);
+
+  // if (!userId) {
+  //   redirect('/sign-in');
+  // }
+
+  // const category = await prismadb.category.findFirst();
+  // console.log('+++++category', category);
+
+  // if (category) {
+  //   redirect(`/${userId}/categories`);
+  // }
 
   return (
     <>
-      <ModalProvider />
+      {showCategoryModal && <ModalProvider />}
       {children}
     </>
   );

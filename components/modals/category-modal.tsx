@@ -19,6 +19,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { useUser } from '@clerk/nextjs';
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -28,6 +30,8 @@ console.log('>>>>>yogida1');
 
 export default function CategoryModal() {
   const categoryModal = useCategoryModal();
+  const { user } = useUser();
+  const router = useRouter();
 
   console.log('++++Modal isOpen?', categoryModal.isOpen);
   const [loading, setLoading] = useState(false);
@@ -44,14 +48,11 @@ export default function CategoryModal() {
     try {
       setLoading(true);
       const response = await axios.post('/api/categories', values);
-      // console.log(response.data);
-      // toast.success('Store created..');
-      // axios 에 post하고 돌아오면 stuck이 되는 경우가 많다 그래서
-      // window.location.assign으로 페이지를 refresh하고 response.data.id
-      // redirect하는 효과를 얻는다. window를 쓰는 이유가 refresh이다.
-      // 예를 들어, 만약 response.data.id의 값이 123이라면,
-      // window.location.assign('/123')이 호출되어 사용자는 /123 URL로 이동하게 됩니다.
-      window.location.assign(`/${response.data.id}`);
+      if (user) {
+        router.push(`/${user.id}/categories`);
+      } else {
+        router.push(`/sign-in`);
+      }
     } catch (error) {
       toast.error('Something went wrong');
     } finally {

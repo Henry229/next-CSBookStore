@@ -1,17 +1,38 @@
 import { auth } from '@clerk/nextjs';
-import { redirect } from 'next/navigation';
+import axios from 'axios';
+import { format } from 'date-fns';
+import { CategoryColumn } from './components/columns';
 
-export default function CategoriesPage() {
+export default async function CategoriesPage() {
   const { userId } = auth();
-
-  console.log('========여 와따!!!');
 
   if (!userId) {
     console.log('안되네!!!');
-
     // redirect('/sign-in');
   }
-  return <><p>쫌 대라</p><p>쫌 대라</p><p>쫌 대라</p><p>쫌 대라</p></>;
-}
 
-hrottling navigation to prevent the browser from hanging. See https://crbug.com/1038223. Command line switch --disable-ipc-flooding-protection can be used to bypass the protection
+  type CategoryItem = {
+    id: string;
+    label: string;
+    createdAt: Date;
+  };
+
+  const response = await axios.get('/api/categories');
+  const categories = response.data;
+
+  const formattedCategories: CategoryColumn[] = categories.map(
+    (item: CategoryItem) => ({
+      id: item.id,
+      label: item.label,
+      createdAt: format(item.createdAt, 'MMMM do, yyyy'),
+    })
+  );
+
+  return (
+    <div className='flex-col'>
+      <div className='flex-1 p-8 pt-6 space-y-4'>
+        <CategoryClient />
+      </div>
+    </div>
+  );
+}
