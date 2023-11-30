@@ -13,7 +13,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
     if (!user) {
       return NextResponse.json('Unauthorized', { status: 401 });
     }
-    const categories = await prismadb.category.findMany();
+    const categories = await prismadb.category.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
     return NextResponse.json(categories, { status: 200 });
   } catch (error) {
     return NextResponse.json('Something went wrong!', { status: 500 });
