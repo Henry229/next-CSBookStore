@@ -11,7 +11,12 @@ export default function CategoriesPage() {
 
     // redirect('/sign-in');
   }
-  return <><p>쫌 대라</p><p>쫌 대라</p><p>쫌 대라</p><p>쫌 대라</p></>;
+  return (
+    <>
+      <p>쫌 대라</p>
+      <p>쫌 대라</p>
+      <p>쫌 대라</p>
+      <p>쫌 대라</p>
+    </>
+  );
 }
-
-hrottling navigation to prevent the browser from hanging. See https://crbug.com/1038223. Command line switch --disable-ipc-flooding-protection can be used to bypass the protection
