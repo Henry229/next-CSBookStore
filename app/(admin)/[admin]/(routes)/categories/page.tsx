@@ -2,9 +2,12 @@ import { auth } from '@clerk/nextjs';
 import axios from 'axios';
 import { format } from 'date-fns';
 import { CategoryColumn } from './components/columns';
+import { CategoryClient } from './components/client';
 
 export default async function CategoriesPage() {
   const { userId } = auth();
+
+  console.log('+++++userId', userId);
 
   if (!userId) {
     console.log('안되네!!!');
@@ -19,6 +22,7 @@ export default async function CategoriesPage() {
 
   const response = await axios.get('/api/categories');
   const categories = response.data;
+  console.log('====== category', categories);
 
   const formattedCategories: CategoryColumn[] = categories.map(
     (item: CategoryItem) => ({
@@ -31,7 +35,7 @@ export default async function CategoriesPage() {
   return (
     <div className='flex-col'>
       <div className='flex-1 p-8 pt-6 space-y-4'>
-        <CategoryClient />
+        {/* <CategoryClient data={formattedCategories} /> */}
       </div>
     </div>
   );

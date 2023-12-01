@@ -7,15 +7,14 @@ import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/ui/data-table';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
-import { ApiList } from '@/components/ui/api-list';
 
-import { columns, BillboardColumn } from './columns';
+import { columns, CategoryColumn } from './columns';
 
-interface BillboardClientProps {
-  data: BillboardColumn[];
+interface CategoryClientProps {
+  data: CategoryColumn[];
 }
 
-export const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
+export const CategoryClient: React.FC<CategoryClientProps> = ({ data }) => {
   const params = useParams();
   const router = useRouter();
 
@@ -27,16 +26,14 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
           description='Manage billboards for your store'
         />
         <Button
-          onClick={() => router.push(`/${params.storeId}/billboards/new`)}
+        // onClick={() => router.push(`/${params.adminId}/categories/new`)}
         >
           <Plus className='w-4 h-4 mr-2' /> Add New
         </Button>
       </div>
       <Separator />
       <DataTable searchKey='label' columns={columns} data={data} />
-      <Heading title='API' description='API Calls for Billboards' />
       <Separator />
-      <ApiList entityName='billboards' entityIdName='billboardId' />
     </>
   );
 };

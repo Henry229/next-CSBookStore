@@ -18,6 +18,8 @@ export default function AdminLayout({
 
   useEffect(() => {
     const handleRedirect = async () => {
+      console.log('+++++user', user);
+
       if (!user) {
         router.push('/sign-in');
       } else {

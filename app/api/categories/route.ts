@@ -1,24 +1,30 @@
 import prismadb from '@/lib/prismadb';
 import { auth, currentUser } from '@clerk/nextjs';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextApiRequest, NextApiResponse } from 'next';
+// import { NextRequest, NextResponse } from 'next/server';
 // import { NextResponse } from 'next/server';
 
 // Fetch All Categories
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
   try {
     const user = await currentUser();
     // const { userId } = auth();
 
     if (!user) {
-      return NextResponse.json('Unauthorized', { status: 401 });
+      return res.status(401).json({ error: 'Unauthorized' });
+      // return NextResponse.json('Unauthorized', { status: 401 });
     }
     const categories = await prismadb.category.findMany({
       orderBy: { createdAt: 'desc' },
     });
-    return NextResponse.json(categories, { status: 200 });
+    console.log('////categories////', categories);
+
+    return res.status(200).json(categories);
+    // return NextResponse.json(categories, { status: 200 });
   } catch (error) {
-    return NextResponse.json('Something went wrong!', { status: 500 });
+    return res.status(500).json({ error: 'Something went wrong!' });
+    // return NextResponse.json('Something went wrong!', { status: 500 });
   }
 }
 
