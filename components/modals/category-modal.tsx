@@ -21,6 +21,7 @@ import { Input } from '@/components/ui/input';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
+import { type } from '../../app/(admin)/[admin]/(routes)/categories/components/columns';
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -47,7 +48,11 @@ export default function CategoryModal() {
     console.log(values);
     try {
       setLoading(true);
-      const response = await axios.post('/api/categories', values);
+      const response = await axios.post(
+        'http://localhost:3000/api/categories',
+        values
+      );
+      categoryModal.onClose();
       if (user) {
         router.push(`/${user.id}/categories`);
       } else {
@@ -67,40 +72,45 @@ export default function CategoryModal() {
       isOpen={categoryModal.isOpen}
       onClose={categoryModal.onClose}
     >
-      <div className='py-2 pb-4 space-y-4'>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
-              control={form.control}
-              name='name'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder='Enter category name'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className='flex items-center justify-end w-full pt-6 space-x-2'>
-              <Button
-                disabled={loading}
-                variant='outline'
-                onClick={categoryModal.onClose}
-              >
-                Cancel
-              </Button>
-              <Button disabled={loading} type='submit'>
-                Continue
-              </Button>
-            </div>
-          </form>
-        </Form>
+      <div>
+        <div className='py-2 pb-4 space-y-4'>
+          <div className='space-y-2'>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FormField
+                  control={form.control}
+                  name='name'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder='Enter category name'
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className='flex items-center justify-end w-full pt-6 space-x-2'>
+                  <Button
+                    disabled={loading}
+                    type='button'
+                    variant='outline'
+                    onClick={categoryModal.onClose}
+                  >
+                    Cancel
+                  </Button>
+                  <Button disabled={loading} type='submit'>
+                    Continue
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </div>
+        </div>
       </div>
     </Modal>
   );

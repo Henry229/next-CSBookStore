@@ -7,7 +7,7 @@ interface useCategoryModalProps {
 }
 
 export const useCategoryModal = create<useCategoryModalProps>((set) => ({
-  isOpen: true,
+  isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
 }));

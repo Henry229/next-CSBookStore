@@ -6,7 +6,7 @@ import { ClerkProvider, ClerkLoaded, ClerkLoading } from '@clerk/nextjs';
 import { ModalProvider } from '@/providers/modal-provider';
 import Navbar from '@/components/navbar';
 
-import { SyncLoader } from 'react-spinners';
+import { PulseLoader } from 'react-spinners';
 import toast from 'react-hot-toast';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -21,13 +21,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  console.log('$$$$$ app > layout.tsx');
   return (
     <ClerkProvider>
       <html lang='en'>
         <body className={inter.className}>
           <ClerkLoading>
             <div className='flex flex-col items-center mt-32 text-center'>
-              <SyncLoader size={8} color='red' />
+              <PulseLoader size={8} color='red' />
             </div>
           </ClerkLoading>
           <ClerkLoaded>

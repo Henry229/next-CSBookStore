@@ -10,14 +10,14 @@ export default authMiddleware({
       return redirectToSignIn({ returnBackUrl: req.url });
     }
     // redirect them to organization selection page
-    if (
-      auth.userId &&
-      auth.orgId &&
-      req.nextUrl.pathname !== '/org-selection'
-    ) {
-      const categoriesPage = new URL(`/${auth.userId}/categories`, req.url);
-      return NextResponse.redirect(categoriesPage);
-    }
+    // if (
+    //   auth.userId &&
+    //   auth.orgId &&
+    //   req.nextUrl.pathname !== '/org-selection'
+    // ) {
+    //   const categoriesPage = new URL(`/${auth.userId}/categories`, req.url);
+    //   return NextResponse.redirect(categoriesPage);
+    // }
   },
   publicRoutes: ['/', '/forget-password'],
 });

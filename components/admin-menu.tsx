@@ -25,6 +25,7 @@ interface AdminMenuProps {
 }
 
 export default function AdminMenu({ canAccessAdmin }: AdminMenuProps) {
+  console.log('$$$$$ app > admin-menu.tsx');
   const router = useRouter();
   const { user } = useUser();
 

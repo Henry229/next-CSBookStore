@@ -37,7 +37,10 @@ export default function MainNav() {
   //     Array.isArray(user.publicMetadata.accessible_paths) &&
   //     user.publicMetadata.accessible_paths.includes('/admin')
   // );
+  console.log('$$$$$ app > main-nav.tsx');
   const accessiblePaths = user?.publicMetadata?.accessible_paths;
+  console.log('+++++accessiblePaths', accessiblePaths);
+
   const canAccessAdmin =
     Array.isArray(accessiblePaths) && accessiblePaths.includes('/admin');
 

@@ -26,6 +26,7 @@ const shopMenuItems: ShopMenuItem[] = [
 ];
 
 export default function ShopMenu() {
+  console.log('$$$$$ app > shop-menu.tsx');
   const router = useRouter();
 
   const [open, setOpen] = useState(false);

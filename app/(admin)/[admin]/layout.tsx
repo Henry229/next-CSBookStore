@@ -1,9 +1,12 @@
 'use client';
 
+import { useCategoryModal } from '@/hooks/use-category-modal';
+import { useGetCategory } from '@/hooks/use-get-category';
 import prismadb from '@/lib/prismadb';
 import { ModalProvider } from '@/providers/modal-provider';
-import { auth, useUser } from '@clerk/nextjs';
+import { auth, useAuth, useUser } from '@clerk/nextjs';
 import axios from 'axios';
+import { set } from 'date-fns';
 import { redirect, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -13,8 +16,11 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const { user } = useUser();
+  const user = useAuth();
+  const { categories, setCategories } = useGetCategory();
+  const { isOpen, onOpen, onClose } = useCategoryModal();
   const [showCategoryModal, setShowCategoryModal] = useState(false);
+  console.log('$$$$$ app > (admin) > [admin] > layout.tsx');
 
   useEffect(() => {
     const handleRedirect = async () => {
@@ -24,24 +30,28 @@ export default function AdminLayout({
         router.push('/sign-in');
       } else {
         try {
-          const response = await axios.get('/api/categories');
-          const categories = response.data;
-          console.log('+++++category', categories);
-
-          if (categories.length > 0) {
-            const firstCategory = categories[0];
-            router.push(`/${user.id}/categories`);
+          const response = await axios.get(
+            'http://localhost:3000/api/categories'
+          );
+          const fetchedCategories = response.data;
+          setCategories(fetchedCategories);
+          if (fetchedCategories.length > 0) {
+            onClose();
+            router.push(`/${user.userId}/categories`);
           } else {
-            setShowCategoryModal(true);
+            onOpen();
+            // setShowCategoryModal(true);
           }
         } catch (error) {
           console.error('getting error while processing API', error);
+          onOpen();
         }
       }
     };
 
     handleRedirect();
-  }, [user, router]);
+  }, [user.userId]);
+  // }, [user, router, onOpen]);
 
   // if (!userId) {
   //   redirect('/sign-in');
@@ -56,7 +66,8 @@ export default function AdminLayout({
 
   return (
     <>
-      {showCategoryModal && <ModalProvider />}
+      {isOpen && <ModalProvider />}
+      {/* {showCategoryModal && <ModalProvider />} */}
       {children}
     </>
   );
