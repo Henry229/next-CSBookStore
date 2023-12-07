@@ -16,6 +16,7 @@ export default function Navbar() {
   return (
     <div className='border-b'>
       <Container>
+        {/* <pre>{JSON.stringify({ isSignedIn }, null, 2)}</pre> */}
         <div className='flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8'>
           <Link href='/' className='flex m-2 lg:ml-0 gap-x-2'>
             <Image src='/cslogo.svg' width={34} height={34} alt='logo' />

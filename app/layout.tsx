@@ -3,6 +3,7 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 
 import { ClerkProvider, ClerkLoaded, ClerkLoading } from '@clerk/nextjs';
+import { ToastProvider } from '@/providers/toast-provider';
 import { ModalProvider } from '@/providers/modal-provider';
 import Navbar from '@/components/navbar';
 
@@ -32,7 +33,8 @@ export default function RootLayout({
             </div>
           </ClerkLoading>
           <ClerkLoaded>
-            {/* <ModalProvider /> */}
+            <ToastProvider />
+            <ModalProvider />
             <Navbar />
             {children}
           </ClerkLoaded>

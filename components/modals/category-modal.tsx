@@ -21,7 +21,6 @@ import { Input } from '@/components/ui/input';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
-import { type } from '../../app/(admin)/[admin]/(routes)/categories/components/columns';
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -49,7 +48,7 @@ export default function CategoryModal() {
     try {
       setLoading(true);
       const response = await axios.post(
-        'http://localhost:3000/api/categories',
+        `http://localhost:3000/api/${user?.id}/categories`,
         values
       );
       categoryModal.onClose();

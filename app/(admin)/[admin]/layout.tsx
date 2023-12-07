@@ -31,7 +31,7 @@ export default function AdminLayout({
       } else {
         try {
           const response = await axios.get(
-            'http://localhost:3000/api/categories'
+            `http://localhost:3000/api/${user.userId}/categories`
           );
           const fetchedCategories = response.data;
           setCategories(fetchedCategories);
