@@ -30,9 +30,9 @@ export default function AdminLayout({
         router.push('/sign-in');
       } else {
         try {
-          const response = await axios.get(
-            `http://localhost:3000/api/${user.userId}/categories`
-          );
+          const response = await axios.get(`/api/${user.userId}/categories`);
+          console.log('😅😅😅😅😅 response.data', response.data);
+
           const fetchedCategories = response.data;
           setCategories(fetchedCategories);
           if (fetchedCategories.length > 0) {
@@ -50,7 +50,8 @@ export default function AdminLayout({
     };
 
     handleRedirect();
-  }, [user.userId]);
+    // }, [user.userId]);
+  }, []);
   // }, [user, router, onOpen]);
 
   // if (!userId) {

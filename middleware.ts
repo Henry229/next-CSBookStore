@@ -3,7 +3,11 @@ import { clerkApi } from '@clerk/nextjs/edge-middlewarefiles';
 import { NextResponse } from 'next/server';
 
 export default authMiddleware({
-  ignoredRoutes: ['/((?!api|trpc))(_next.*|.+.[w]+$)', '/', '/[admin]/:path*'],
+  // ignoredRoutes: [
+  // '/((?!api|trpc))(_next.*|.+.[w]+$)',
+  // '/',
+  // 'api/:path*',
+  // ],
   // afterAuth(auth, req, evt) {
   //   // handle users who aren't authenticated
 
@@ -20,10 +24,18 @@ export default authMiddleware({
   //   //   return NextResponse.redirect(categoriesPage);
   //   // }
   // },
-  publicRoutes: ['/', '/forget-password'],
+  publicRoutes: [
+    '/',
+    '/forget-password',
+    '/api/:path*',
+    '/user_2YI1m7wbcDhtx0yXElecgDIapGh/:path*',
+    // '/user_2YI1m7wbcDhtx0yXElecgDIapGh/categories',
+  ],
 });
 // publicRoutes: ['/api/:path*'],
 
 export const config = {
+  // matcher: ['/((?!.+\\.[\\w]+$|_next|api).*)', '/'],
+  // matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/'],
   matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
 };

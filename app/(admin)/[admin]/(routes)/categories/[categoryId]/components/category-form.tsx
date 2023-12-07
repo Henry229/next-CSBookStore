@@ -57,17 +57,21 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 
   const onSubmit = async (data: CategoryFormValues) => {
     try {
+      console.log('<<<<<>>>>>> data', data);
+
       setLoading(true);
+      const { title } = data;
+      console.log('<<<<<>>>>>> title', title, '///', { title });
       if (initialData) {
         await axios.patch(
-          `/api/${params.adminId}/categories/${params.categoryId}`,
-          data
+          `/api/${params.admin}/categories/${params.categoryId}`,
+          { title }
         );
       } else {
-        await axios.post(`/api/${params.adminId}/categories`, data);
+        await axios.post(`/api/${params.admin}/categories`, { title });
       }
       router.refresh();
-      router.push(`/${params.adminId}/categories`);
+      router.push(`/${params.admin}/categories`);
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error('Something went wrong.');
@@ -80,10 +84,10 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     try {
       setLoading(true);
       await axios.delete(
-        `/api/${params.adminId}/categories/${params.categoryId}`
+        `/api/${params.admin}/categories/${params.categoryId}`
       );
       router.refresh();
-      router.push(`/${params.adminId}/categories`);
+      router.push(`/${params.admin}/categories`);
       toast.success('Category deleted.');
     } catch (error: any) {
       toast.error('Make sure you removed all categories.');
