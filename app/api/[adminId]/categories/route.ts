@@ -1,6 +1,6 @@
 import prismadb from '@/lib/prismadb';
 import { auth, currentUser } from '@clerk/nextjs';
-import { log } from 'console';
+import { error, log } from 'console';
 // import { NextApiRequest, NextApiResponse } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
 // import { NextResponse } from 'next/server';
@@ -39,7 +39,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
-    const { userId } = await auth();
+    const { userId } = auth();
     // const body = await req.body;
     const body = await req.json();
 

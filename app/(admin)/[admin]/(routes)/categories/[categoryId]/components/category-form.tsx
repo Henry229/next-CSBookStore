@@ -23,6 +23,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Heading } from '@/components/ui/heading';
 import { AlertModal } from '@/components/modals/alert-modal';
+import { useGetCategory } from '@/hooks/use-get-category';
 // import { AlertModal } from "@/components/modals/alert-modal"
 // import ImageUpload from "@/components/ui/image-upload"
 
@@ -40,6 +41,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
 
+  const { categories, setCategories } = useGetCategory();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -55,6 +57,15 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     },
   });
 
+  const updateCategories = async () => {
+    try {
+      const response = await axios.get(`/api/${params.adminId}/categories`);
+      setCategories(response.data);
+    } catch (error) {
+      toast.error('Failed to update categories.');
+    }
+  };
+
   const onSubmit = async (data: CategoryFormValues) => {
     try {
       console.log('<<<<<>>>>>> data', data);
@@ -64,13 +75,14 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
       console.log('<<<<<>>>>>> title', title, '///', { title });
       if (initialData) {
         await axios.patch(
-          `/api/${params.admin}/categories/${params.categoryId}`,
+          `/api/${params.adminId}/categories/${params.categoryId}`,
           { title }
         );
       } else {
-        await axios.post(`/api/${params.admin}/categories`, { title });
+        await axios.post(`/api/${params.adminId}/categories`, { title });
       }
-      router.refresh();
+      // router.refresh();
+      await updateCategories();
       router.push(`/${params.admin}/categories`);
       toast.success(toastMessage);
     } catch (error: any) {
@@ -84,9 +96,10 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     try {
       setLoading(true);
       await axios.delete(
-        `/api/${params.admin}/categories/${params.categoryId}`
+        `/api/${params.adminId}/categories/${params.categoryId}`
       );
-      router.refresh();
+      // router.refresh();
+      await updateCategories();
       router.push(`/${params.admin}/categories`);
       toast.success('Category deleted.');
     } catch (error: any) {

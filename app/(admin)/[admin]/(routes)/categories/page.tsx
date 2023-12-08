@@ -17,22 +17,22 @@ export default function CategoriesPage() {
 
   console.log('+++++userId in category route', userId);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get(`/api/${userId}/categories`);
-        const fetchedCategories = response.data;
-        setCategories(fetchedCategories);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-        // 오류 처리 로직
-      }
-    };
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     try {
+  //       const response = await axios.get(`/api/${userId}/categories`);
+  //       const fetchedCategories = response.data;
+  //       setCategories(fetchedCategories);
+  //     } catch (error) {
+  //       console.error('Error fetching categories:', error);
+  //       // 오류 처리 로직
+  //     }
+  //   };
 
-    if (userId) {
-      fetchCategories();
-    }
-  }, []);
+  //   if (userId) {
+  //     fetchCategories();
+  //   }
+  // }, []);
 
   // if (!userId) {
   // redirect('/sign-in');

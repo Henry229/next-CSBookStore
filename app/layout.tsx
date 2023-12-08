@@ -34,7 +34,7 @@ export default function RootLayout({
           </ClerkLoading>
           <ClerkLoaded>
             <ToastProvider />
-            <ModalProvider />
+            {/* <ModalProvider /> */}
             <Navbar />
             {children}
           </ClerkLoaded>
