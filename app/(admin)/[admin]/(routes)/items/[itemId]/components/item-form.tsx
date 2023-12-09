@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { Trash } from 'lucide-react';
-import { Category } from '@prisma/client';
+import { Item } from '@prisma/client';
 import { useParams, useRouter } from 'next/navigation';
 
 import { Input } from '@/components/ui/input';
@@ -23,65 +23,62 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Heading } from '@/components/ui/heading';
 import { AlertModal } from '@/components/modals/alert-modal';
-import { useGetCategory } from '@/hooks/use-get-category';
+// import { useGetCategory } from '@/hooks/use-get-Item';
+// import { AlertModal } from "@/components/modals/alert-modal"
+// import ImageUpload from "@/components/ui/image-upload"
 
 const formSchema = z.object({
   title: z.string().min(1),
+  value: z.string().min(1),
 });
 
-type CategoryFormValues = z.infer<typeof formSchema>;
+type ItemFormValues = z.infer<typeof formSchema>;
 
-interface CategoryFormProps {
-  initialData: Category | null;
+interface ItemFormProps {
+  initialData: Item | null;
 }
 
-export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
+export const ItemForm: React.FC<ItemFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
 
-  const { categories, setCategories } = useGetCategory();
+  // const { categories, setCategories } = useGetCategory();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? 'Edit category' : 'Create category';
-  const description = initialData ? 'Edit a category.' : 'Add a new category';
-  const toastMessage = initialData ? 'Category updated.' : 'Category created.';
+  const title = initialData ? 'Edit Item' : 'Create Item';
+  const description = initialData ? 'Edit a Item.' : 'Add a new Item';
+  const toastMessage = initialData ? 'Item updated.' : 'Item created.';
   const action = initialData ? 'Save changes' : 'Create';
 
-  const form = useForm<CategoryFormValues>({
+  const form = useForm<ItemFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       title: '',
     },
   });
 
-  const updateCategories = async () => {
-    try {
-      const response = await axios.get(`/api/${params.adminId}/categories`);
-      setCategories(response.data);
-    } catch (error) {
-      toast.error('Failed to update categories.');
-    }
-  };
+  // const updateCategories = async () => {
+  //   try {
+  //     const response = await axios.get(`/api/${params.adminId}/categories`);
+  //     setCategories(response.data);
+  //   } catch (error) {
+  //     toast.error('Failed to update categories.');
+  //   }
+  // };
 
-  const onSubmit = async (data: CategoryFormValues) => {
+  const onSubmit = async (data: ItemFormValues) => {
     try {
-      console.log('<<<<<>>>>>> data', data);
-
       setLoading(true);
-      const { title } = data;
-      console.log('<<<<<>>>>>> title', title, '///', { title });
       if (initialData) {
         await axios.patch(
-          `/api/${params.adminId}/categories/${params.categoryId}`,
-          { title }
+          `/api/${params.adminId}/items/${params.itemId}`,
+          data
         );
       } else {
-        await axios.post(`/api/${params.adminId}/categories`, { title });
+        await axios.post(`/api/${params.adminId}/items`, data);
       }
-      // router.refresh();
-      await updateCategories();
-      router.push(`/${params.admin}/categories`);
+      router.push(`/${params.admin}/items`);
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error('Something went wrong.');
@@ -93,15 +90,11 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(
-        `/api/${params.adminId}/categories/${params.categoryId}`
-      );
-      // router.refresh();
-      await updateCategories();
-      router.push(`/${params.admin}/categories`);
-      toast.success('Category deleted.');
+      await axios.delete(`/api/${params.adminId}/items/${params.itemId}`);
+      router.push(`/${params.admin}/items`);
+      toast.success('Item deleted.');
     } catch (error: any) {
-      toast.error('Make sure you removed all categories.');
+      toast.error('Make sure you removed all product using this size first.');
     } finally {
       setLoading(false);
       setOpen(false);
@@ -141,11 +134,28 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
               name='title'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category Name</FormLabel>
+                  <FormLabel>Item Name</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder='Category name'
+                      placeholder='Item name'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='value'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Item Value</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder='Item value'
                       {...field}
                     />
                   </FormControl>
