@@ -30,16 +30,16 @@ export async function POST(
       return new NextResponse('Admin id is required', { status: 400 });
     }
 
-    const item = await prismadb.item.create({
+    const subject = await prismadb.subject.create({
       data: {
         title,
         value,
       },
     });
 
-    return NextResponse.json(item);
+    return NextResponse.json(subject);
   } catch (error) {
-    console.log('[ITEMS_POST]', error);
+    console.log('[SUBJECTS_POST]', error);
     return new NextResponse('Internal error', { status: 500 });
   }
 }
@@ -53,13 +53,13 @@ export async function GET(
       return new NextResponse('Admin id is required', { status: 400 });
     }
 
-    const items = await prismadb.item.findMany({
+    const subjects = await prismadb.subject.findMany({
       orderBy: { createdAt: 'desc' },
     });
 
-    return NextResponse.json(items);
+    return NextResponse.json(subjects);
   } catch (error) {
-    console.log('[ITEMS_GET]', error);
+    console.log('[SUBJECTS_GET]', error);
     return new NextResponse('Internal error', { status: 500 });
   }
 }

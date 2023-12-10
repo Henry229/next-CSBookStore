@@ -16,10 +16,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { AlertModal } from '@/components/modals/alert-modal';
 
-import { ItemColumn } from './columns';
+import { SubjectColumn } from './columns';
 
 interface CellActionProps {
-  data: ItemColumn;
+  data: SubjectColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -31,11 +31,13 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.admin}/items/${data.id}`);
-      toast.success('Item deleted.');
+      await axios.delete(`/api/${params.admin}/subjects/${data.id}`);
+      toast.success('Subject deleted.');
       router.refresh();
     } catch (error) {
-      toast.error('Make sure you removed all products using this item first.');
+      toast.error(
+        'Make sure you removed all products using this subject first.'
+      );
     } finally {
       setOpen(false);
       setLoading(false);
@@ -44,7 +46,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast.success('Item ID copied to clipboard.');
+    toast.success('Subject ID copied to clipboard.');
   };
 
   return (
@@ -68,7 +70,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             <Copy className='w-4 h-4 mr-2' /> Copy Id
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => router.push(`/${params.admin}/items/${data.id}`)}
+            onClick={() => router.push(`/${params.admin}/subjects/${data.id}`)}
           >
             <Edit className='w-4 h-4 mr-2' /> Update
           </DropdownMenuItem>

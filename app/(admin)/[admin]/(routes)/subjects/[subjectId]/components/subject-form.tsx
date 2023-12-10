@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { Trash } from 'lucide-react';
-import { Item } from '@prisma/client';
+import { Subject } from '@prisma/client';
 import { useParams, useRouter } from 'next/navigation';
 
 import { Input } from '@/components/ui/input';
@@ -32,13 +32,13 @@ const formSchema = z.object({
   value: z.string().min(1),
 });
 
-type ItemFormValues = z.infer<typeof formSchema>;
+type SubjectFormValues = z.infer<typeof formSchema>;
 
-interface ItemFormProps {
-  initialData: Item | null;
+interface SubjectFormProps {
+  initialData: Subject | null;
 }
 
-export const ItemForm: React.FC<ItemFormProps> = ({ initialData }) => {
+export const SubjectForm: React.FC<SubjectFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
 
@@ -46,39 +46,30 @@ export const ItemForm: React.FC<ItemFormProps> = ({ initialData }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? 'Edit Item' : 'Create Item';
-  const description = initialData ? 'Edit a Item.' : 'Add a new Item';
-  const toastMessage = initialData ? 'Item updated.' : 'Item created.';
+  const title = initialData ? 'Edit Subject' : 'Create Subject';
+  const description = initialData ? 'Edit a Subject.' : 'Add a new Subject';
+  const toastMessage = initialData ? 'Subject updated.' : 'Subject created.';
   const action = initialData ? 'Save changes' : 'Create';
 
-  const form = useForm<ItemFormValues>({
+  const form = useForm<SubjectFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       title: '',
     },
   });
 
-  // const updateCategories = async () => {
-  //   try {
-  //     const response = await axios.get(`/api/${params.adminId}/categories`);
-  //     setCategories(response.data);
-  //   } catch (error) {
-  //     toast.error('Failed to update categories.');
-  //   }
-  // };
-
-  const onSubmit = async (data: ItemFormValues) => {
+  const onSubmit = async (data: SubjectFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
         await axios.patch(
-          `/api/${params.adminId}/items/${params.itemId}`,
+          `/api/${params.adminId}/subjects/${params.itemId}`,
           data
         );
       } else {
-        await axios.post(`/api/${params.adminId}/items`, data);
+        await axios.post(`/api/${params.adminId}/subjects`, data);
       }
-      router.push(`/${params.admin}/items`);
+      router.push(`/${params.admin}/subjects`);
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error('Something went wrong.');
@@ -90,11 +81,13 @@ export const ItemForm: React.FC<ItemFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.adminId}/items/${params.itemId}`);
-      router.push(`/${params.admin}/items`);
-      toast.success('Item deleted.');
+      await axios.delete(`/api/${params.adminId}/subjects/${params.itemId}`);
+      router.push(`/${params.admin}/subjects`);
+      toast.success('Subject deleted.');
     } catch (error: any) {
-      toast.error('Make sure you removed all product using this item first.');
+      toast.error(
+        'Make sure you removed all product using this subject first.'
+      );
     } finally {
       setLoading(false);
       setOpen(false);
@@ -134,11 +127,11 @@ export const ItemForm: React.FC<ItemFormProps> = ({ initialData }) => {
               name='title'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Item Name</FormLabel>
+                  <FormLabel>Subject Name</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder='Item name'
+                      placeholder='Subject name'
                       {...field}
                     />
                   </FormControl>
@@ -151,11 +144,11 @@ export const ItemForm: React.FC<ItemFormProps> = ({ initialData }) => {
               name='value'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Item Value</FormLabel>
+                  <FormLabel>Subject Value</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder='Item value'
+                      placeholder='Subject value'
                       {...field}
                     />
                   </FormControl>
