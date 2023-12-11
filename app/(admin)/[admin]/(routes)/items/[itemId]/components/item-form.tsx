@@ -2,7 +2,8 @@
 
 import * as z from 'zod';
 import axios from 'axios';
-import { useState } from 'react';
+import { useAuth } from '@clerk/nextjs';
+import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
@@ -23,9 +24,6 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Heading } from '@/components/ui/heading';
 import { AlertModal } from '@/components/modals/alert-modal';
-// import { useGetCategory } from '@/hooks/use-get-Item';
-// import { AlertModal } from "@/components/modals/alert-modal"
-// import ImageUpload from "@/components/ui/image-upload"
 
 const formSchema = z.object({
   title: z.string().min(1),
@@ -42,9 +40,11 @@ export const ItemForm: React.FC<ItemFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
 
-  // const { categories, setCategories } = useGetCategory();
+  const { getToken } = useAuth();
+
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
 
   const title = initialData ? 'Edit Item' : 'Create Item';
   const description = initialData ? 'Edit a Item.' : 'Add a new Item';
@@ -58,25 +58,31 @@ export const ItemForm: React.FC<ItemFormProps> = ({ initialData }) => {
     },
   });
 
-  // const updateCategories = async () => {
-  //   try {
-  //     const response = await axios.get(`/api/${params.adminId}/categories`);
-  //     setCategories(response.data);
-  //   } catch (error) {
-  //     toast.error('Failed to update categories.');
-  //   }
-  // };
+  useEffect(() => {
+    const fetchToken = async () => {
+      const fetchedToken = await getToken();
+      setToken(fetchedToken);
+    };
+
+    fetchToken();
+  }, []);
 
   const onSubmit = async (data: ItemFormValues) => {
     try {
       setLoading(true);
+      if (!token) {
+        throw new Error('No authentication token available');
+      }
+
+      const headers = { Authorization: `Bearer ${token}` };
       if (initialData) {
         await axios.patch(
           `/api/${params.adminId}/items/${params.itemId}`,
-          data
+          data,
+          { headers }
         );
       } else {
-        await axios.post(`/api/${params.adminId}/items`, data);
+        await axios.post(`/api/${params.adminId}/items`, data, { headers });
       }
       router.push(`/${params.admin}/items`);
       toast.success(toastMessage);

@@ -2,7 +2,8 @@
 
 import * as z from 'zod';
 import axios from 'axios';
-import { useState } from 'react';
+import { useAuth } from '@clerk/nextjs';
+import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
@@ -42,32 +43,50 @@ export const SubjectForm: React.FC<SubjectFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
 
-  // const { categories, setCategories } = useGetCategory();
+  const { getToken } = useAuth();
+
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
 
   const title = initialData ? 'Edit Subject' : 'Create Subject';
   const description = initialData ? 'Edit a Subject.' : 'Add a new Subject';
   const toastMessage = initialData ? 'Subject updated.' : 'Subject created.';
   const action = initialData ? 'Save changes' : 'Create';
 
+  useEffect(() => {
+    const fetchToken = async () => {
+      const fetchedToken = await getToken();
+      setToken(fetchedToken);
+    };
+
+    fetchToken();
+  }, []);
+
   const form = useForm<SubjectFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
-      title: '',
+    defaultValues: {
+      title: initialData?.title || '',
+      value: initialData?.value || '',
     },
   });
 
   const onSubmit = async (data: SubjectFormValues) => {
     try {
       setLoading(true);
+      if (!token) {
+        throw new Error('No authentication token available');
+      }
+
+      const headers = { Authorization: `Bearer ${token}` };
       if (initialData) {
         await axios.patch(
           `/api/${params.adminId}/subjects/${params.itemId}`,
-          data
+          data,
+          { headers }
         );
       } else {
-        await axios.post(`/api/${params.adminId}/subjects`, data);
+        await axios.post(`/api/${params.adminId}/subjects`, data, { headers });
       }
       router.push(`/${params.admin}/subjects`);
       toast.success(toastMessage);

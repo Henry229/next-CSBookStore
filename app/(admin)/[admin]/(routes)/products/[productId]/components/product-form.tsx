@@ -2,7 +2,8 @@
 
 import * as z from 'zod';
 import axios from 'axios';
-import { useState } from 'react';
+import { useAuth } from '@clerk/nextjs';
+import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
@@ -67,8 +68,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const params = useParams();
   const router = useRouter();
 
+  const { getToken } = useAuth();
+
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
 
   const title = initialData ? 'Edit product' : 'Create product';
   const description = initialData ? 'Edit a product.' : 'Add a new product';
@@ -96,16 +100,31 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     defaultValues,
   });
 
+  useEffect(() => {
+    const fetchToken = async () => {
+      const fetchedToken = await getToken();
+      setToken(fetchedToken);
+    };
+
+    fetchToken();
+  }, []);
+
   const onSubmit = async (data: ProductFormValues) => {
     try {
       setLoading(true);
+      if (!token) {
+        throw new Error('No authentication token available');
+      }
+
+      const headers = { Authorization: `Bearer ${token}` };
       if (initialData) {
         await axios.patch(
           `/api/${params.storeId}/products/${params.productId}`,
-          data
+          data,
+          { headers }
         );
       } else {
-        await axios.post(`/api/${params.storeId}/products`, data);
+        await axios.post(`/api/${params.storeId}/products`, data, { headers });
       }
       router.refresh();
       router.push(`/${params.storeId}/products`);

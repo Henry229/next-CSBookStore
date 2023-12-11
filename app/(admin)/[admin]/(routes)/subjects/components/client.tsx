@@ -30,7 +30,7 @@ export const SubjectClient: React.FC<SubjectsClientProps> = ({ data }) => {
         </Button>
       </div>
       <Separator />
-      <DataTable searchKey='label' columns={columns} data={data} />
+      <DataTable searchKey='title' columns={columns} data={data} />
     </>
   );
 };
