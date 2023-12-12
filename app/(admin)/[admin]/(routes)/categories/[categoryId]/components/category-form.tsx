@@ -2,7 +2,8 @@
 
 import * as z from 'zod';
 import axios from 'axios';
-import { useState } from 'react';
+import { useAuth } from '@clerk/nextjs';
+import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
@@ -39,9 +40,12 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
 
-  const { categories, setCategories } = useGetCategory();
+  const { getToken } = useAuth();
+
+  // const { categories, setCategories } = useGetCategory();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
 
   const title = initialData ? 'Edit category' : 'Create category';
   const description = initialData ? 'Edit a category.' : 'Add a new category';
@@ -55,32 +59,43 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     },
   });
 
-  const updateCategories = async () => {
-    try {
-      const response = await axios.get(`/api/${params.adminId}/categories`);
-      setCategories(response.data);
-    } catch (error) {
-      toast.error('Failed to update categories.');
-    }
-  };
+  useEffect(() => {
+    const fetchToken = async () => {
+      const fetchedToken = await getToken();
+      setToken(fetchedToken);
+    };
+  });
+
+  // const updateCategories = async () => {
+  //   try {
+  //     const response = await axios.get(`/api/${params.adminId}/categories`);
+  //     setCategories(response.data);
+  //   } catch (error) {
+  //     toast.error('Failed to update categories.');
+  //   }
+  // };
 
   const onSubmit = async (data: CategoryFormValues) => {
     try {
-      console.log('<<<<<>>>>>> data', data);
-
       setLoading(true);
-      const { title } = data;
-      console.log('<<<<<>>>>>> title', title, '///', { title });
+      if (!token) {
+        throw new Error('No authentication token available');
+      }
+
+      const headers = { Authorization: `Bearer ${token}` };
       if (initialData) {
         await axios.patch(
           `/api/${params.adminId}/categories/${params.categoryId}`,
-          { title }
+          data,
+          { headers }
         );
       } else {
-        await axios.post(`/api/${params.adminId}/categories`, { title });
+        await axios.post(`/api/${params.adminId}/categories`, data, {
+          headers,
+        });
       }
       // router.refresh();
-      await updateCategories();
+      // await updateCategories();
       router.push(`/${params.admin}/categories`);
       toast.success(toastMessage);
     } catch (error: any) {
@@ -97,7 +112,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
         `/api/${params.adminId}/categories/${params.categoryId}`
       );
       // router.refresh();
-      await updateCategories();
+      // await updateCategories();
       router.push(`/${params.admin}/categories`);
       toast.success('Category deleted.');
     } catch (error: any) {

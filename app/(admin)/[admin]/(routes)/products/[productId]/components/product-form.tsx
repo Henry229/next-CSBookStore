@@ -36,12 +36,13 @@ import ImageUpload from '@/components/ui/image-upload';
 import { Checkbox } from '@/components/ui/checkbox';
 
 const formSchema = z.object({
-  name: z.string().min(1),
+  title: z.string().min(1),
   images: z.object({ url: z.string() }).array(),
   price: z.coerce.number().min(1),
   categoryId: z.string().min(1),
   itemId: z.string().min(1),
   subjectId: z.string().min(1),
+  description: z.string().min(1),
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional(),
 });
@@ -74,8 +75,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState<string | null>(null);
 
-  const title = initialData ? 'Edit product' : 'Create product';
-  const description = initialData ? 'Edit a product.' : 'Add a new product';
+  const title = initialData ? 'Edit Product' : 'Create Product';
+  const description = initialData ? 'Edit a Product.' : 'Add a new Product';
   const toastMessage = initialData ? 'Product updated.' : 'Product created.';
   const action = initialData ? 'Save changes' : 'Create';
 
@@ -85,12 +86,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         price: parseFloat(String(initialData?.price)),
       }
     : {
-        name: '',
+        title: '',
         images: [],
         price: 0,
         categoryId: '',
         itemId: '',
         subjectId: '',
+        description: '',
         isFeatured: false,
         isArchived: false,
       };
@@ -111,23 +113,23 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
   const onSubmit = async (data: ProductFormValues) => {
     try {
+      console.log('====>>>> params', params);
       setLoading(true);
       if (!token) {
         throw new Error('No authentication token available');
       }
-
       const headers = { Authorization: `Bearer ${token}` };
       if (initialData) {
         await axios.patch(
-          `/api/${params.storeId}/products/${params.productId}`,
+          `/api/${params.admin}/products/${params.productId}`,
           data,
           { headers }
         );
       } else {
-        await axios.post(`/api/${params.storeId}/products`, data, { headers });
+        await axios.post(`/api/${params.admin}/products`, data, { headers });
       }
       router.refresh();
-      router.push(`/${params.storeId}/products`);
+      router.push(`/${params.admin}/products`);
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error('Something went wrong.');
@@ -139,9 +141,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
+      await axios.delete(`/api/${params.adminId}/products/${params.productId}`);
       router.refresh();
-      router.push(`/${params.storeId}/products`);
+      router.push(`/${params.admin}/products`);
       toast.success('Product deleted.');
     } catch (error: any) {
       toast.error('Something went wrong.');
@@ -205,7 +207,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           <div className='gap-8 md:grid md:grid-cols-3'>
             <FormField
               control={form.control}
-              name='name'
+              name='title'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
@@ -330,6 +332,24 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       ))}
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='description'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <textarea
+                      disabled={loading}
+                      placeholder='Description'
+                      {...field}
+                      className='w-full p-2 border border-gray-300'
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

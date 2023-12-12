@@ -25,12 +25,12 @@ export const ProductsClient: React.FC<ProductsClientProps> = ({ data }) => {
           title={`Products (${data.length})`}
           description='Manage products for your bookstore'
         />
-        <Button onClick={() => router.push(`/${params.storeId}/products/new`)}>
+        <Button onClick={() => router.push(`/${params.admin}/products/new`)}>
           <Plus className='w-4 h-4 mr-2' /> Add New
         </Button>
       </div>
       <Separator />
-      <DataTable searchKey='name' columns={columns} data={data} />
+      <DataTable searchKey='title' columns={columns} data={data} />
     </>
   );
 };

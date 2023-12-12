@@ -96,6 +96,7 @@ export const ItemForm: React.FC<ItemFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
+      console.log('!!!!!params : ', params);
       await axios.delete(`/api/${params.adminId}/items/${params.itemId}`);
       router.push(`/${params.admin}/items`);
       toast.success('Item deleted.');

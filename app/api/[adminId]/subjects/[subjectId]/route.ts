@@ -6,14 +6,14 @@ import { auth } from '@clerk/nextjs';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { itemId: string } }
+  { params }: { params: { subjectId: string } }
 ) {
   try {
-    if (!params.itemId) {
-      return NextResponse.json('Item id is required', { status: 400 });
+    if (!params.subjectId) {
+      return NextResponse.json('Subject id is required', { status: 400 });
     }
-    const item = await prismadb.item.findUnique({
-      where: { id: params.itemId },
+    const item = await prismadb.subject.findUnique({
+      where: { id: params.subjectId },
     });
     return NextResponse.json(item, { status: 200 });
   } catch (error) {
@@ -26,7 +26,7 @@ export async function GET(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { itemId: string } }
+  { params }: { params: { subjectId: string } }
 ) {
   try {
     const { userId } = auth();
@@ -35,26 +35,26 @@ export async function DELETE(
       return new NextResponse('Unauthenticated', { status: 403 });
     }
 
-    if (!params.itemId) {
+    if (!params.subjectId) {
       return new NextResponse('Item id is required', { status: 400 });
     }
 
-    const item = await prismadb.item.delete({
+    const item = await prismadb.subject.delete({
       where: {
-        id: params.itemId,
+        id: params.subjectId,
       },
     });
 
     return NextResponse.json(item);
   } catch (error) {
-    console.log('[ITEM_DELETE]', error);
+    console.log('[SUBJECT_DELETE]', error);
     return new NextResponse('Internal error', { status: 500 });
   }
 }
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { itemId: string } }
+  { params }: { params: { subjectId: string } }
 ) {
   try {
     const { userId } = auth();
@@ -68,20 +68,20 @@ export async function PATCH(
     }
 
     if (!title) {
-      return new NextResponse('Item Name is required', { status: 400 });
+      return new NextResponse('Subject Title is required', { status: 400 });
     }
 
     if (!value) {
-      return new NextResponse('Item Value is required', { status: 400 });
+      return new NextResponse('Subject Value is required', { status: 400 });
     }
 
-    if (!params.itemId) {
-      return new NextResponse('Item id is required', { status: 400 });
+    if (!params.subjectId) {
+      return new NextResponse('subject id is required', { status: 400 });
     }
 
-    const item = await prismadb.item.update({
+    const subject = await prismadb.subject.update({
       where: {
-        id: params.itemId,
+        id: params.subjectId,
       },
       data: {
         title,
@@ -89,9 +89,9 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json(item);
+    return NextResponse.json(subject);
   } catch (error) {
-    console.log('[ITEM_PATCH]', error);
+    console.log('[SUBJECT_PATCH]', error);
     return new NextResponse('Internal error', { status: 500 });
   }
 }

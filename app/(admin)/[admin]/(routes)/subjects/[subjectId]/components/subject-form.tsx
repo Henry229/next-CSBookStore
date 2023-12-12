@@ -24,9 +24,6 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Heading } from '@/components/ui/heading';
 import { AlertModal } from '@/components/modals/alert-modal';
-// import { useGetCategory } from '@/hooks/use-get-Item';
-// import { AlertModal } from "@/components/modals/alert-modal"
-// import ImageUpload from "@/components/ui/image-upload"
 
 const formSchema = z.object({
   title: z.string().min(1),
@@ -81,7 +78,7 @@ export const SubjectForm: React.FC<SubjectFormProps> = ({ initialData }) => {
       const headers = { Authorization: `Bearer ${token}` };
       if (initialData) {
         await axios.patch(
-          `/api/${params.adminId}/subjects/${params.itemId}`,
+          `/api/${params.adminId}/subjects/${params.subjectId}`,
           data,
           { headers }
         );
@@ -100,7 +97,7 @@ export const SubjectForm: React.FC<SubjectFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.adminId}/subjects/${params.itemId}`);
+      await axios.delete(`/api/${params.adminId}/subjects/${params.subjectId}`);
       router.push(`/${params.admin}/subjects`);
       toast.success('Subject deleted.');
     } catch (error: any) {
