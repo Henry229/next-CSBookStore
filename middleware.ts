@@ -29,6 +29,7 @@ export default authMiddleware({
     '/forget-password',
     '/api/:path*',
     '/user_2YI1m7wbcDhtx0yXElecgDIapGh/:path*',
+    '/books/:path*',
     // '/user_2YI1m7wbcDhtx0yXElecgDIapGh/categories',
   ],
 });

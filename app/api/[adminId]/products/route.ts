@@ -99,13 +99,13 @@ export async function GET(
       return new NextResponse('Admin id is required', { status: 400 });
     }
 
-    const subjects = await prismadb.subject.findMany({
+    const products = await prismadb.product.findMany({
       orderBy: { createdAt: 'desc' },
     });
 
-    return NextResponse.json(subjects);
+    return NextResponse.json(products);
   } catch (error) {
-    console.log('[SUBJECTS_GET]', error);
+    console.log('[PRODUCTS_GET]', error);
     return new NextResponse('Internal error', { status: 500 });
   }
 }

@@ -20,7 +20,7 @@ export async function GET(
     const err = error as Error;
     console.error('Error message :', err.message);
     console.error('Stack Trace :', err.stack);
-    return NextResponse.json('INternal error!', { status: 500 });
+    return NextResponse.json('Internal error!', { status: 500 });
   }
 }
 
@@ -36,7 +36,7 @@ export async function DELETE(
     }
 
     if (!params.productId) {
-      return new NextResponse('Item id is required', { status: 400 });
+      return new NextResponse('Product id is required', { status: 400 });
     }
 
     const item = await prismadb.product.delete({
@@ -106,7 +106,7 @@ export async function PATCH(
     }
 
     if (!params.adminId) {
-      return new NextResponse('subject id is required', { status: 400 });
+      return new NextResponse('Admin id is required', { status: 400 });
     }
 
     const product = await prismadb.product.update({
