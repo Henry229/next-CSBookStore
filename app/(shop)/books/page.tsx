@@ -8,14 +8,14 @@ import GetSubjects from '@/actions/get-subjects';
 import Filter from './components/filter';
 import NoResults from '@/components/ui/no-results';
 import ProductCard from '@/components/ui/product-card';
-import { Product as PrismaProduct } from '@prisma/client';
+import { Product } from '@/types';
 
-interface ExtendedProduct extends PrismaProduct {
-  category: { title: string } | null;
-  item: { title: string } | null;
-  subject: { title: string } | null;
-  images: { url: string }[] | null;
-}
+// interface ExtendedProduct extends PrismaProduct {
+//   category: { title: string } | null;
+//   item: { title: string } | null;
+//   subject: { title: string } | null;
+//   images: { url: string }[];
+// }
 
 export default async function BookPage() {
   const category = await GetCategory('Books');
@@ -25,7 +25,7 @@ export default async function BookPage() {
   }
   const items = await GetItems();
   const subjects = await GetSubjects();
-  const products = await GetProductions(category.id);
+  const products: Product[] = await GetProductions(category.id);
   console.log('======= products', products);
 
   return (
@@ -42,7 +42,7 @@ export default async function BookPage() {
             <div className='mt-6 lg:col-span-4 lg:mt-0'>
               {products.length === 0 && <NoResults />}
               <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3'>
-                {products.map((item: ExtendedProduct) => (
+                {products.map((item) => (
                   <ProductCard key={item.id} data={item} />
                 ))}
               </div>

@@ -49,7 +49,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({ items, subjects }) => {
             </div>
 
             <div className='p-4'>
-              <Filter valueKey='itemId' name='Itmes' data={items} />
+              <Filter valueKey='itemId' name='Items' data={items} />
               <Filter valueKey='subjectId' name='Subjects' data={subjects} />
             </div>
           </Dialog.Panel>

@@ -11,11 +11,11 @@ import usePreviewModal from '@/hooks/use-preview-modal';
 import useCart from '@/hooks/use-cart';
 import { Product } from '@/types';
 
-interface ProductCard {
+interface ProductCardProps {
   data: Product;
 }
 
-const ProductCard: React.FC<ProductCard> = ({ data }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
   console.log('>>>>>----- data : ', data);
 
   const previewModal = usePreviewModal();

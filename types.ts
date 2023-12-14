@@ -1,11 +1,11 @@
 export interface Product {
   id: string;
-  category: Category;
+  category?: Category | null;
   title: string;
   price: string;
   isFeatured: boolean;
-  item: Item;
-  subject: Subject;
+  item?: Item | null;
+  subject?: Subject | null;
   images: Image[];
 }
 
