@@ -21,8 +21,8 @@ export async function GET(
     return NextResponse.json(category, { status: 200 });
   } catch (error) {
     const err = error as Error;
-    console.error('오류발생 :', err.message);
-    console.error('스택 트레이스 :', err.stack);
+    console.error('Error message :', err.message);
+    console.error('Stack Trace :', err.stack);
     return new NextResponse('Internal error', { status: 500 });
   }
 }

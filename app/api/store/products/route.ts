@@ -11,6 +11,12 @@ export async function GET(req: NextRequest) {
     }
     const products = await prismadb.product.findMany({
       where: { categoryId: categoryId },
+      include: {
+        category: true,
+        item: true,
+        subject: true,
+        images: true,
+      },
     });
 
     return new NextResponse(JSON.stringify(products), { status: 200 });
