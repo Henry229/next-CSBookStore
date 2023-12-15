@@ -9,6 +9,7 @@ import Filter from './components/filter';
 import NoResults from '@/components/ui/no-results';
 import ProductCard from '@/components/ui/product-card';
 import { Product } from '@/types';
+import { useSearchParams } from 'next/navigation';
 
 // interface ExtendedProduct extends PrismaProduct {
 //   category: { title: string } | null;
@@ -17,7 +18,16 @@ import { Product } from '@/types';
 //   images: { url: string }[];
 // }
 
-export default async function BookPage() {
+interface BookPageProps {
+  searchParams: {
+    itemId: string;
+    subjectId: string;
+  };
+}
+
+export default async function BookPage({
+  searchParams: { itemId, subjectId },
+}: BookPageProps) {
   const category = await GetCategory('Books');
   if (!category || !category.id) {
     console.error('Category not found');
@@ -25,7 +35,13 @@ export default async function BookPage() {
   }
   const items = await GetItems();
   const subjects = await GetSubjects();
-  const products: Product[] = await GetProductions(category.id);
+  // console.log('======= searchParams', searchParams);
+
+  const products: Product[] = await GetProductions(
+    category.id,
+    itemId,
+    subjectId
+  );
   console.log('======= products', products);
 
   return (

@@ -5,12 +5,23 @@ export async function GET(req: NextRequest) {
   try {
     const url = new URL(req.url, `http://${req.headers.get('host')}`);
     const categoryId = url.searchParams.get('categoryId');
+    const itemId = url.searchParams.get('itemId');
+    const subjectId = url.searchParams.get('subjectId');
 
     if (!categoryId) {
       return new NextResponse('Category id is required', { status: 400 });
     }
+
+    const whereClause = {
+      categoryId,
+      ...(itemId && { itemId }),
+      ...(subjectId && { subjectId }),
+    };
+
+    console.log(' ////???? whereClause :', whereClause);
+
     const products = await prismadb.product.findMany({
-      where: { categoryId: categoryId },
+      where: whereClause,
       include: {
         category: true,
         item: true,
@@ -18,6 +29,8 @@ export async function GET(req: NextRequest) {
         images: true,
       },
     });
+
+    console.log(' ////???? products :', products);
 
     return new NextResponse(JSON.stringify(products), { status: 200 });
   } catch (error) {
