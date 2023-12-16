@@ -5,8 +5,6 @@ export async function GET(req: Request) {
   try {
     const subjects = await prismadb.subject.findMany({});
 
-    console.log('>>><<<< subjects from DB :', subjects);
-
     return NextResponse.json(subjects, { status: 200 });
   } catch (error) {
     const err = error as Error;

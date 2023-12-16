@@ -35,14 +35,12 @@ export default async function BookPage({
   }
   const items = await GetItems();
   const subjects = await GetSubjects();
-  // console.log('======= searchParams', searchParams);
 
   const products: Product[] = await GetProductions(
     category.id,
     itemId,
     subjectId
   );
-  console.log('======= products', products);
 
   return (
     <div className='bg-white'>

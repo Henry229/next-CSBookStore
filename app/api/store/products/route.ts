@@ -18,8 +18,6 @@ export async function GET(req: NextRequest) {
       ...(subjectId && { subjectId }),
     };
 
-    console.log(' ////???? whereClause :', whereClause);
-
     const products = await prismadb.product.findMany({
       where: whereClause,
       include: {
@@ -29,8 +27,6 @@ export async function GET(req: NextRequest) {
         images: true,
       },
     });
-
-    console.log(' ////???? products :', products);
 
     return new NextResponse(JSON.stringify(products), { status: 200 });
   } catch (error) {

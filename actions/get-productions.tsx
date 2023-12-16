@@ -11,8 +11,6 @@ export default async function GetProductions(
     if (itemId) params.append('itemId', itemId);
     if (subjectId) params.append('subjectId', subjectId);
 
-    console.log('>>>>>----- params in get-productions : ', params);
-
     const response = await axios.get(
       `http://localhost:3000/api/store/products?${params.toString()}`
     );

@@ -16,14 +16,14 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
-  console.log('>>>>>----- data : ', data);
+  console.log('?????data :', data);
 
   const previewModal = usePreviewModal();
   const cart = useCart();
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/product/${data?.id}`);
+    router.push(`/products/${data?.id}/`);
   };
 
   const onPreview: MouseEventHandler<HTMLButtonElement> = (event) => {

@@ -28,8 +28,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  console.log('>>>>><<<<< params: ', params);
-
   const onConfirm = async () => {
     try {
       setLoading(true);
