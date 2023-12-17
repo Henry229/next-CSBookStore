@@ -21,7 +21,7 @@ type ShopMenuItem = {
 
 const shopMenuItems: ShopMenuItem[] = [
   { label: 'Books', route: '/books' },
-  { label: 'Test Papers', route: '/testPaper' },
+  { label: 'Test Papers', route: '/testpapers' },
   { label: 'AudioBooks', route: '/audioBooks' },
 ];
 
