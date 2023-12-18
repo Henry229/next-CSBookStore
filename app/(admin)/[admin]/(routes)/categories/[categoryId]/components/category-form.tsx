@@ -64,6 +64,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
       const fetchedToken = await getToken();
       setToken(fetchedToken);
     };
+    fetchToken();
   });
 
   // const updateCategories = async () => {
@@ -99,6 +100,10 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
       router.push(`/${params.admin}/categories`);
       toast.success(toastMessage);
     } catch (error: any) {
+      const err = error as Error;
+      console.error('Error message :', err.message);
+      console.error('Stack Trace :', err.stack);
+      console.log('[CATEGORY_CREATE]', error);
       toast.error('Something went wrong.');
     } finally {
       setLoading(false);

@@ -6,6 +6,7 @@ import { useUser } from '@clerk/nextjs';
 import { cn } from '@/lib/utils';
 import AdminMenu from '@/components/admin-menu';
 import ShopMenu from '@/components/shop-menu';
+import NavbarActions from './navbar-actions';
 
 export default function MainNav() {
   const pathName = usePathname();
@@ -19,16 +20,16 @@ export default function MainNav() {
       label: 'Contact',
       active: pathName === `/contact`,
     },
-    {
-      href: '/Cart',
-      label: 'Cart',
-      active: pathName === `/cart`,
-    },
-    {
-      href: '/Order',
-      label: 'Order',
-      active: pathName === `/order`,
-    },
+    // {
+    //   href: '/Cart',
+    //   label: 'Cart',
+    //   active: pathName === `/cart`,
+    // },
+    // {
+    //   href: '/Order',
+    //   label: 'Order',
+    //   active: pathName === `/order`,
+    // },
   ];
 
   // const canAccessAdmin = Boolean(
@@ -61,6 +62,7 @@ export default function MainNav() {
           {route.label}
         </Link>
       ))}
+      <NavbarActions />
       <AdminMenu canAccessAdmin={canAccessAdmin} />
     </nav>
   );

@@ -113,7 +113,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
   const onSubmit = async (data: ProductFormValues) => {
     try {
-      console.log('====>>>> params', params);
+      console.log('====>>>> params', params, '@@@@', token);
       setLoading(true);
       if (!token) {
         throw new Error('No authentication token available');
