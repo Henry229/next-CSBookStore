@@ -31,7 +31,7 @@ const Summary = () => {
 
   const onCheckout = async () => {
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
+      'http://localhost:3000/api/store/checkout',
       {
         productIds: items.map((item) => item.id),
       }

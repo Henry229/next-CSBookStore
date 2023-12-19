@@ -30,6 +30,7 @@ export default authMiddleware({
     '/api/:path*',
     '/user_2YI1m7wbcDhtx0yXElecgDIapGh/:path*',
     '/books/:path*',
+    '/cart/:path*',
     // '/user_2YI1m7wbcDhtx0yXElecgDIapGh/categories',
   ],
 });
