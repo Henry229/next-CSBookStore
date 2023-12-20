@@ -8,7 +8,7 @@ import { ModalProvider } from '@/providers/modal-provider';
 import Navbar from '@/components/navbar';
 
 import { PulseLoader } from 'react-spinners';
-import toast from 'react-hot-toast';
+import { ThemeProvider } from '@/providers/theme-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,17 +27,19 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang='en'>
         <body className={inter.className}>
-          <ClerkLoading>
-            <div className='flex flex-col items-center mt-32 text-center'>
-              <PulseLoader size={8} color='red' />
-            </div>
-          </ClerkLoading>
-          <ClerkLoaded>
-            <ToastProvider />
-            {/* <ModalProvider /> */}
-            <Navbar />
-            {children}
-          </ClerkLoaded>
+          <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
+            <ClerkLoading>
+              <div className='flex flex-col items-center mt-32 text-center'>
+                <PulseLoader size={8} color='red' />
+              </div>
+            </ClerkLoading>
+            <ClerkLoaded>
+              <ToastProvider />
+              {/* <ModalProvider /> */}
+              <Navbar />
+              {children}
+            </ClerkLoaded>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

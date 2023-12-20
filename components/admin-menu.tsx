@@ -37,6 +37,7 @@ export default function AdminMenu({ canAccessAdmin }: AdminMenuProps) {
         { label: 'Items', route: `/${user.userId}/items` },
         { label: 'Subjects', route: `/${user.userId}/subjects` },
         { label: 'Products', route: `/${user.userId}/products` },
+        { label: 'Orders', route: `/${user.userId}/orders` },
       ]
     : [];
 

@@ -7,6 +7,7 @@ import { UserButton, auth, useUser } from '@clerk/nextjs';
 import MainNav from '@/components/main-nav';
 import Container from '@/components/ui/container';
 import LoginNav from '@/components/login-nav';
+import { ThemeToggle } from './theme-toggle';
 
 export default function Navbar() {
   // const { userId } = await auth();
@@ -28,6 +29,7 @@ export default function Navbar() {
               <LoginNav />
             ) : (
               <div className='flex items-center ml-auto space-x-4'>
+                <ThemeToggle />
                 <UserButton afterSignOutUrl='/' />
               </div>
             )}

@@ -12,6 +12,8 @@ import { toast } from 'react-hot-toast';
 const Summary = () => {
   const searchParams = useSearchParams();
   const items = useCart((state) => state.items);
+  console.log('$$$$ items : ', items);
+
   const removeAll = useCart((state) => state.removeAll);
 
   useEffect(() => {

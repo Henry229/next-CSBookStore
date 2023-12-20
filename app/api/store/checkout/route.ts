@@ -36,6 +36,13 @@ export async function POST(req: Request) {
     });
   });
 
+  console.log(
+    '>>>>====++++ products , line_items : ',
+    products,
+    '/',
+    line_items
+  );
+
   const order = await prismadb.order.create({
     data: {
       isPaid: false,
