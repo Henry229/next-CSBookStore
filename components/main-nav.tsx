@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import AdminMenu from '@/components/admin-menu';
 import ShopMenu from '@/components/shop-menu';
 import NavbarActions from './navbar-actions';
+import { ItemClient } from '../app/(admin)/[admin]/(routes)/items/components/client';
 
 export default function MainNav() {
   const pathName = usePathname();
@@ -46,7 +47,7 @@ export default function MainNav() {
     Array.isArray(accessiblePaths) && accessiblePaths.includes('/admin');
 
   return (
-    <nav className='flex items-center space-x-4 lg:space-x-6'>
+    <nav className='flex flex-col items-center space-y-2 md:flex-row md:space-x-6 '>
       <ShopMenu />
       {routes.map((route) => (
         <Link

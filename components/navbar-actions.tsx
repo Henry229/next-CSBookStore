@@ -22,7 +22,7 @@ const NavbarActions = () => {
   }
 
   return (
-    <div className='flex items-center ml-auto gap-x-4'>
+    <div className='flex flex-col items-center justify-center w-full ml-auto lg:flex-row lg:items-center lg:justify-start lg:w-auto gap-x-4'>
       <MobileButton
         onClick={() => router.push('/cart')}
         className='flex items-center px-4 py-2 bg-black rounded-full'
