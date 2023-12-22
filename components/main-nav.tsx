@@ -17,7 +17,7 @@ export default function MainNav() {
 
   const routes = [
     {
-      href: '/Contact',
+      href: '/contact',
       label: 'Contact',
       active: pathName === `/contact`,
     },
@@ -47,14 +47,14 @@ export default function MainNav() {
     Array.isArray(accessiblePaths) && accessiblePaths.includes('/admin');
 
   return (
-    <nav className='flex flex-col items-center space-y-2 md:flex-row md:space-x-6 '>
+    <nav className='flex flex-col items-center md:flex-row md:space-x-4 '>
       <ShopMenu />
       {routes.map((route) => (
         <Link
           key={route.href}
           href={route.href}
           className={cn(
-            'text-sm font-medium transition-colors hover:text-primary',
+            'text-sm font-medium transition-colors py-2 hover:text-primary',
             route.active
               ? 'text-black dark:text-white'
               : 'text-muted-foreground'

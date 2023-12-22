@@ -27,7 +27,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang='en'>
         <body className={inter.className}>
-          <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
+          <ThemeProvider attribute='class' defaultTheme='dark' enableSystem>
             <ClerkLoading>
               <div className='flex flex-col items-center mt-32 text-center'>
                 <PulseLoader size={8} color='red' />
