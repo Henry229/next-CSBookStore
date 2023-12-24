@@ -3,6 +3,7 @@ import Container from '@/components/ui/container';
 import ContactForm from './components/contact-form';
 import { Home, Mail, Phone } from 'lucide-react';
 import Footer from '@/components/footer';
+import GoogleMapComponent from '@/components/googleMapComponent';
 
 export default function ContactPage() {
   return (
@@ -45,6 +46,7 @@ export default function ContactPage() {
             </div>
           </div>
         </section>
+        <GoogleMapComponent />
         <Footer />
       </Container>
     </div>
