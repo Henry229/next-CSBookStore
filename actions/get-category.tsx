@@ -3,7 +3,7 @@ import axios from 'axios';
 export default async function GetCategory(categoryName: string) {
   try {
     const response = await axios.get(
-      `http://localhost:3000/api/store/${categoryName}`
+      `http://next-cs-book-store.vercel.app/api/store/${categoryName}`
     );
     return response.data;
   } catch (error) {

@@ -12,7 +12,7 @@ export default async function GetProductions(
     if (subjectId) params.append('subjectId', subjectId);
 
     const response = await axios.get(
-      `http://localhost:3000/api/store/products?${params.toString()}`
+      `http://next-cs-book-store.vercel.app/api/store/products?${params.toString()}`
     );
     return response.data;
   } catch (error) {

@@ -48,7 +48,7 @@ export default function CategoryModal() {
     try {
       setLoading(true);
       const response = await axios.post(
-        `http://localhost:3000/api/${user?.id}/categories`,
+        `http://next-cs-book-store.vercel.app/api/${user?.id}/categories`,
         values
       );
       categoryModal.onClose();
