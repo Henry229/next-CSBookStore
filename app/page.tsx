@@ -1,5 +1,6 @@
 import Footer from '@/components/footer';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default async function HomePage() {
   const items = [
@@ -28,13 +29,19 @@ export default async function HomePage() {
             <p>Bright Minds, Brighter Futures</p>
             <p>Learning Made Fun!</p>
           </h1>
-          <p className='mb-4 text-lg lg:text-xl text-zinc-300'>
+          <p className='mb-6 text-lg lg:text-xl text-zinc-300'>
             Explore our wide selection of books, test papers, and audio books
             designed for primary students. Stay ahead in learning and have fun!
           </p>
-          <button className='px-6 py-2 text-white transition bg-black rounded-lg shadow-lg hover:bg-opacity-50'>
+          <Link
+            href='/books'
+            className='px-6 py-3 text-white transition bg-black rounded-lg shadow-lg hover:bg-opacity-50'
+          >
             Shop
-          </button>
+          </Link>
+          {/* <button className='px-6 py-2 text-white transition bg-black rounded-lg shadow-lg hover:bg-opacity-50'>
+            Shop
+          </button> */}
         </div>
         <div className='w-full mb-8 ml-6 md:mt-0 md:flex-1'>
           <Image
@@ -77,9 +84,12 @@ export default async function HomePage() {
             <li>Boost Academic Performance with Comprehensive Test Papers</li>
             <li>Enhance Listening Skills with Captivating Audio Books</li>
           </ul>
-          <button className='px-6 py-2 text-white transition duration-300 bg-black rounded-lg shadow-lg hover:bg-opacity-70'>
+          <Link
+            href='/books'
+            className='px-6 py-3 text-white transition bg-black rounded-lg shadow-lg hover:bg-opacity-50'
+          >
             Shop
-          </button>
+          </Link>
         </div>
       </section>
       <section className='container px-8 py-12 mx-auto'>
@@ -109,9 +119,12 @@ export default async function HomePage() {
           ))}
         </div>
         <div className='mt-12 text-center'>
-          <button className='px-6 py-2 text-white transition duration-300 bg-black rounded-lg shadow-lg hover:bg-opacity-70'>
+          <Link
+            href='/books'
+            className='px-6 py-3 text-white transition bg-black rounded-lg shadow-lg hover:bg-opacity-50'
+          >
             Shop
-          </button>
+          </Link>
         </div>
       </section>
       <section className='container flex flex-col items-center px-8 py-12 mx-auto md:py-16 md:flex-row'>
