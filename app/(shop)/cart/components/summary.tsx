@@ -33,7 +33,7 @@ const Summary = () => {
 
   const onCheckout = async () => {
     const response = await axios.post(
-      'http://localhost:3000/api/store/checkout',
+      'http://next-cs-book-store.vercel.app/api/store/checkout',
       {
         productIds: items.map((item) => item.id),
       }

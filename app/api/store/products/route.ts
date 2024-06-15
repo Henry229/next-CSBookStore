@@ -3,7 +3,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
   try {
-    const url = new URL(req.url, `http://${req.headers.get('host')}`);
+    const url = req.nextUrl;
+    // const url = new URL(req.url, `http://${req.headers.get('host')}`);
     const categoryId = url.searchParams.get('categoryId');
     const itemId = url.searchParams.get('itemId');
     const subjectId = url.searchParams.get('subjectId');
