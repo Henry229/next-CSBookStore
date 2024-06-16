@@ -13,7 +13,7 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from '@/components/ui/menubar';
-import { auth, useAuth, useUser } from '@clerk/nextjs';
+import { useAuth, useUser } from '@clerk/nextjs';
 
 type AdminMenuItem = {
   label: string;
@@ -21,15 +21,15 @@ type AdminMenuItem = {
 };
 
 interface AdminMenuProps {
-  canAccessAdmin: boolean;
+  accessiblerole: boolean;
 }
 
-export default function AdminMenu({ canAccessAdmin }: AdminMenuProps) {
+export default function AdminMenu({ accessiblerole }: AdminMenuProps) {
   console.log('$$$$$ app > admin-menu.tsx');
   const router = useRouter();
   const user = useAuth();
 
-  console.log('+++++user in admin menu', user?.userId, '/', canAccessAdmin);
+  console.log('+++++user in admin menu', user?.userId, '/', accessiblerole);
 
   const adminMenuItems: AdminMenuItem[] = user.userId
     ? [
@@ -47,7 +47,7 @@ export default function AdminMenu({ canAccessAdmin }: AdminMenuProps) {
     router.push(route);
   };
 
-  if (!canAccessAdmin) {
+  if (!accessiblerole) {
     return null;
   }
 

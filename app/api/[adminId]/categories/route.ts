@@ -1,5 +1,5 @@
 import prismadb from '@/lib/prismadb';
-import { auth, currentUser } from '@clerk/nextjs';
+import { auth, currentUser } from '@clerk/nextjs/server';
 import { error, log } from 'console';
 // import { NextApiRequest, NextApiResponse } from 'next';
 import { NextRequest, NextResponse } from 'next/server';

@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { auth } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
 import prismadb from '@/lib/prismadb';
 import { CategoryColumn } from './components/columns';
 import { CategoryClient } from './components/client';

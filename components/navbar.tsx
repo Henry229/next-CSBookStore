@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { UserButton, auth, useUser } from '@clerk/nextjs';
+import { UserButton, useUser } from '@clerk/nextjs';
 import { useState } from 'react';
 
 import MainNav from '@/components/main-nav';

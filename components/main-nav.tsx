@@ -8,12 +8,26 @@ import AdminMenu from '@/components/admin-menu';
 import ShopMenu from '@/components/shop-menu';
 import NavbarActions from './navbar-actions';
 import { ItemClient } from '../app/(admin)/[admin]/(routes)/items/components/client';
+// import { useEffect, useState } from 'react';
 
 export default function MainNav() {
   const pathName = usePathname();
   const paramsValue = useParams();
   const params = paramsValue.param;
   const { user } = useUser();
+  // const [jrole, setJrole] = useState<string | undefined>(undefined);
+
+  // useEffect(() => {
+  //   if (user) {
+  //     console.log('@@@ user: ', user);
+  //     const userRole = user.publicMetadata?.role;
+  //     console.log('Role from publicMetadata:', userRole);
+
+  //     if (typeof userRole === 'string') {
+  //       setJrole(userRole);
+  //     } else console.log('Role is not a string', userRole);
+  //   }
+  // }, [user]);
 
   const routes = [
     {
@@ -39,12 +53,22 @@ export default function MainNav() {
   //     Array.isArray(user.publicMetadata.accessible_paths) &&
   //     user.publicMetadata.accessible_paths.includes('/admin')
   // );
-  console.log('$$$$$ app > main-nav.tsx');
-  const accessiblePaths = user?.publicMetadata?.accessible_paths;
-  console.log('+++++accessiblePaths', accessiblePaths);
+  // console.log('$$$$$ app > main-nav.tsx');
+  // const role = user?.publicMetadata?.role;
+  const accessiblerole = user?.publicMetadata?.role === 'admin';
+  // const accessiblerole = jrole === 'admin';
+  console.log('@@@ user: ', user);
+  console.log(
+    '+++++accessiblePaths',
+    accessiblerole,
+    '/',
+    user?.publicMetadata
+    // '/',
+    // jrole
+  );
 
-  const canAccessAdmin =
-    Array.isArray(accessiblePaths) && accessiblePaths.includes('/admin');
+  // const canAccessAdmin =
+  // Array.isArray(accessiblePaths) && accessiblePaths.includes('/admin');
 
   return (
     <nav className='flex flex-col items-center md:flex-row md:space-x-4 '>
@@ -64,7 +88,7 @@ export default function MainNav() {
         </Link>
       ))}
       <NavbarActions />
-      <AdminMenu canAccessAdmin={canAccessAdmin} />
+      <AdminMenu accessiblerole={accessiblerole} />
     </nav>
   );
 }

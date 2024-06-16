@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import prismadb from '@/lib/prismadb';
-import { auth } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
 // import { NextApiRequest, NextApiResponse } from 'next';
 
 export async function GET(
